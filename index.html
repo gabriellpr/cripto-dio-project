@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="coins"></p>
+
+    <script type="text/javascript">
+      var apikey = {
+        key: "3329694b-2d6c-4987-8efe-e4d68e07bbad",
+      };
+
+      fetch(
+        "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY=" +
+          apikey.key
+      )
+        .then((response) => {
+          if (!response.ok)
+            throw new Error(
+              "Erro ao executar requisicao, status " + response.status
+            );
+          return response.json();
+        })
+        .then((api) => {
+          var texto = "";
+          for (let i = 0; i < 10; i++) {
+            texto =
+              texto +
+              `
+              <div class ="media">
+
+                <div class="media-body">
+                  <h5>${api.data[i].name}</h5>
+                  <p>${api.data[i].symbol}</p>
+                  </div>
+                </div>
+            `;
+
+            document.getElementById("coins").innerHTML = texto;
+          }
+          console.log(api);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    </script>
+  </body>
+</html>
